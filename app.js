@@ -14,7 +14,6 @@ const formUrl = process.env.formUrl;
 const apiKey = process.env.apiKey;
 let portalId = '';
 let packageId = '';
-let sender = '';
 
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 const textParser = bodyParser.text({ type: '*/*' });
@@ -66,15 +65,6 @@ app.use('/form', function (req, res) {
 })
 
 app.use('/show', urlencodedParser, function (req, res) {
-    console.log('showing /show req.query',req.query)
-    if (req.query.formUrl) {
-        formUrl = req.query.formUrl;
-    };
-
-    if (req.query.registrationKey) {
-        registrationKey = req.query.registrationKey;
-    }
-
     // Extract Media Shuttle package endpoint url from the redirectUrl request body parameter
     // passed by Media Shuttle. You can invoke a GET request on this url to retrieve all
     // known package details prior displaying the metadata form. The package endpoint url is
