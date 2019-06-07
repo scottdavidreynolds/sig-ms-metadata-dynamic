@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -8,10 +7,12 @@ const crypto = require('crypto');
 const rp = require('request-promise');
 const ejs = require('ejs');
 const axios = require('axios');
+
 const port = process.env.PORT || 3000;
-const registrationKey = process.env.registrationKey;
-const formUrl = process.env.formUrl;
-const apiKey = process.env.apiKey;
+
+let registrationKey = process.env.registrationKey;
+let formUrl = process.env.formUrl;
+let apiKey = process.env.apiKey;
 let portalId = '';
 let packageId = '';
 
