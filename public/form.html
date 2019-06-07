@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+        form .form-control {
+            height: 30px;
+        }
+        form label {
+            text-align: right;
+        }
+        form .col-xs-9 {
+            padding-left: 0;
+        }
+        form.form-horizontal .control-label {
+            padding-top: 7px;
+        }
+        form textarea.form-control {
+            height: 80px;
+        }
+    </style>
+
+</head>
+<body>
+<form class="form-horizontal" action="process" method="post" id="input-form">
+    <input name="redirectUrl" type="hidden" value="<%= redirectUrl %>"/>
+    <div class="form-group">
+        <label for="sender" class="col-xs-3 control-label">Sender</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="sender" name="sender" value="<%= sender %>" readonly>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="programTitle" class="col-xs-3 control-label">Program Title</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="programmeTitle" name="programTitle" placeholder="Program Title">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="episodeTitle" class="col-xs-3 control-label">Episode Title/No.</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="episodeTitle" name="episodeTitle" placeholder="Episode Title">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="synopsis" class="col-xs-3 control-label">Synopsis</label>
+        <div class="col-xs-9">
+            <textarea id="synopsis" name="synopsis" class="form-control" placeholder="Synopsis"></textarea>
+        </div>
+    </div>
+    <%files.forEach(function(file){ %>
+    <div class="form-group">
+        <label for="<%= file.fileName %>" class="col-xs-3 control-label"><%= file.fileName %></label>
+        <div class="col-xs-9">
+            <select id="<%= file.fileName %>" name="<%= file.fileName %>" class="form-control">
+                <option value="" default selected></option>
+                <option value="video">Video</option>
+                <option value="audio">Audio</option>
+                <option value="story_art">Story Art</option>
+                <option value=subtitles>Subtitles</option>
+                <option value="accessibility_file">Accessibility Files</option>
+            </select>
+        </div>
+    </div>
+    <% }); %>
+    <div class="form-group">
+        <label for="originator" class="col-xs-3 control-label">Originator</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="originator" name="originator" placeholder="Originator">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="distributor" class="col-xs-3 control-label">Distributor</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="distributor" name="distributor" placeholder="Distributor">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="packageName" class="col-xs-3 control-label">Package ID</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="packageName" name="packageName" value="<%= packageId %>" readonly>
+        </div>
+    </div>
+    <br/>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary pull-right">Submit Info</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
