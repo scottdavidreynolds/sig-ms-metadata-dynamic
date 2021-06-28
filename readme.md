@@ -9,9 +9,9 @@
 
 1. First configure your Node env with:
 
-   registrationKey=*your submit portal metadata registration key*  
+   registrationKey=*yourSubmitPortalMetadataRegistrationKey*  
    formUrl=*yourPortalUrl*/show  
-   apiKey=*your Media Shuttle API Key*
+   apiKey=*yourMediaShuttleApiKey*
 
 2. Configure your portal Metadata settings:
 
