@@ -10,9 +10,9 @@ const axios = require('axios');
 
 const port = process.env.PORT || 3000;
 
-let registrationKey = process.env.registrationKey;
-let formUrl = process.env.formUrl;
-let apiKey = process.env.apiKey;
+const registrationKey = process.env.registrationKey;
+const formUrl = process.env.formUrl;
+const apiKey = process.env.apiKey;
 let portalId = '';
 let packageId = '';
 
@@ -22,13 +22,13 @@ const textParser = bodyParser.text({ type: '*/*' });
 app.use(express.static(path.join(__dirname, 'public')));
 
 const getPackageInfo = () => {
+    // this function is only used to demonstrate that you can also retrieve package data via the API
     axios({
         method: 'GET',
         url: 'https://api.mediashuttle.com/v1/portals/' + portalId + '/packages/' + packageId,
         headers: { 'Authorization': apiKey, 'Content-Type': 'application/json' }
     })
         .then(res => {
-            let metadata = res.data.metadata;
             console.log('retrieved metadata:/n', res.data)
         })
         .catch(error => {
@@ -66,17 +66,13 @@ app.use('/form', function (req, res) {
 })
 
 app.use('/show', urlencodedParser, function (req, res) {
-    // Extract Media Shuttle package endpoint url from the redirectUrl request body parameter
-    // passed by Media Shuttle. You can invoke a GET request on this url to retrieve all
-    // known package details prior displaying the metadata form. The package endpoint url is
-    // the same as the redirectUrl without the /metadata suffix.
+    // Extract Media Shuttle package endpoint url from the redirectUrl request body parameter passed by Media Shuttle. You can invoke a GET request on this url to retrieve all known package details prior displaying the metadata form. The package endpoint url is the same as the redirectUrl without the /metadata suffix.
     const portalPackageUrl = req.body.redirectUrl.replace(/\/metadata$/, '');
 
     // Generate a signed url for the above using the portal registration key.
     const signedPortalPackageUrl = generateSignedUrl(portalPackageUrl, '', registrationKey);
 
-    // Fetch the package details from Media Shuttle and use them to fill in template
-    // values in the web form.
+    // Fetch the package details from Media Shuttle and use them to fill in template values in the web form.
     rp.get(signedPortalPackageUrl)
         .then(portalPackage => {
             const portalPackageJson = JSON.parse(portalPackage);
@@ -99,6 +95,7 @@ app.use('/show', urlencodedParser, function (req, res) {
 });
 
 app.post('/process', textParser, function (req, res) {
+    // a slight delay is required while the package data is stored from the metadata submit. Package data is also available in portalPackage above but demonstrates subsequent retrievals via the API
     setTimeout(getPackageInfo, 1000)
     const form = querystring.parse(req.body);
     const signedUrl = generateSignedUrl(form.redirectUrl, req.body, registrationKey);
